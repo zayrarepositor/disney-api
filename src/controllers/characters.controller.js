@@ -4,7 +4,7 @@ import { Movie } from "../models/Movie.js";
 //list of specific character or all characters
 export const getAllCharacters = async (req, res) => {
   try {
-    const { name, age, movies } = req.query;
+    const { name, age, movies, weight } = req.query;
 
     // get characters?name=name
     if (name) {
@@ -12,13 +12,15 @@ export const getAllCharacters = async (req, res) => {
         where: {
           name,
         },
+        attributes: { exclude: ["id"] },
         include: {
           model: Movie,
           attributes: ["title"],
         },
       });
-
-      res.status(200).json(character);
+      character === null
+        ? res.status(400).json("sorry, character not found")
+        : res.status(200).json(character);
     }
 
     // get characters?age=age
@@ -27,13 +29,15 @@ export const getAllCharacters = async (req, res) => {
         where: {
           age,
         },
+        attributes: { exclude: ["id"] },
         include: {
           model: Movie,
           attributes: ["title"],
         },
       });
-
-      res.status(200).json(characters);
+      characters === null
+        ? res.status(400).json("sorry, characters not found")
+        : res.status(200).json(characters);
     }
     // get characters?weight=weight
     else if (weight) {
@@ -41,31 +45,36 @@ export const getAllCharacters = async (req, res) => {
         where: {
           weight,
         },
+        attributes: { exclude: ["id"] },
         include: {
           model: Movie,
           attributes: ["title"],
         },
       });
-
-      res.status(200).json(characters);
+      characters === null
+        ? res.status(400).json("sorry, characters not found")
+        : res.status(200).json(characters);
     }
 
     // get characters?movies=idMovie
     else if (movies) {
-      //findByPk
-      const movie = await Movie.findOne({
-        where: {
-          id: movies,
-        },
-      });
-      const movieCharacters = await movie.getCharacters();
-      res.status(200).json(movieCharacters);
+      const movie = await Movie.findByPk(movies);
+      if (movie !== null) {
+        const movieCharacters = await movie.getCharacters({
+          attributes: { exclude: ["id"] },
+        });
+        res.status(200).json(movieCharacters);
+      } else {
+      }
     } else {
       const allCharacters = await Character.findAll({
         attributes: ["name", "image"],
       });
-
-      res.status(200).json(allCharacters);
+      if (getAllCharacters === null) {
+        res.status(400).json("sorry, there are not characters");
+      } else {
+        res.status(200).json(allCharacters);
+      }
     }
   } catch (error) {
     console.log(error);
@@ -120,21 +129,22 @@ export const updateCharacter = async (req, res) => {
       if (age) character.update({ age });
       if (weight) character.update({ weight });
       if (history) character.update({ history });
-
       if (movies) {
-        const movie = await Movie.create({
+        /*   const movie = await Movie.create({
           title: movies,
         });
-
-        //character.update(movie);
-        await character.addMovie(movie);
+ */ character.addMovies({ movies });
+        //character.update({ movies });//{"movies":[{"title":"colombia"}, {"title":"encanto2"}]}
+        /* await character.addMovies({
+          movies: movies.map((m) => {
+            return { title: m };
+          }),
+        }); */
       }
-
       res.status(202).send({
         msg: `You has updated a character`,
         character,
       });
-      //MOVIES??
     } else {
       res.status(400).json({ msg: "character not found" });
     }
@@ -148,9 +158,7 @@ export const deleteCharacter = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const character = await Character.findOne({
-      where: { id },
-    });
+    const character = await Character.findByPk(id);
 
     if (character) {
       await Character.destroy({
