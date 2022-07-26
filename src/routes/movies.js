@@ -8,12 +8,12 @@ import {
 const movies = Router();
 
 //list of specific movie or all movies
-movies.get("/movies", getAllMovies);
+movies.get("/", getAllMovies);
 // create a movie
-movies.post("/movies", createMovie);
+movies.post("/", createMovie);
 // edit a movie
-movies.put("/movies/:id", updateMovie);
+movies.put("/:id", updateMovie);
 // delete a movie
-movies.delete("/movies/:id", deleteMovie);
+movies.delete("/:id", deleteMovie);
 
 export default movies;

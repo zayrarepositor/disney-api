@@ -7,14 +7,13 @@ import {
 } from "../controllers/genres.controller.js";
 const genres = Router();
 
-
 // get all genres (image, title, date)
-genres.get("/genres", getAllGenres);
+genres.get("/", getAllGenres);
 // create a genre
-genres.post("/genres", createGenre);
+genres.post("/", createGenre);
 // edit a genre
-genres.put("/genres/:id", updateGenre);
+genres.put("/:id", updateGenre);
 // delete a genre
-genres.delete("/genres/:id", deleteGenre);
+genres.delete("/:id", deleteGenre);
 
 export default genres;

@@ -19,6 +19,9 @@ export const Movie = sequelize.define(
     //creation date
     date: {
       type: DataTypes.DATEONLY,
+      validate: {
+        isDate: true,
+      },
     },
     rating: {
       type: DataTypes.INTEGER,

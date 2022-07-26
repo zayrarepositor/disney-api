@@ -9,12 +9,12 @@ import {
 const characters = Router();
 
 //list of specific character or all characters
-characters.get("/characters", getAllCharacters);
+characters.get("/", getAllCharacters);
 // create a character
-characters.post("/characters", createCharacter);
+characters.post("/", createCharacter);
 // edit a character
-characters.put("/characters/:id", updateCharacter);
+characters.put("/:id", updateCharacter);
 // delete a character
-characters.delete("/characters/:id", deleteCharacter);
+characters.delete("/:id", deleteCharacter);
 
 export default characters;
