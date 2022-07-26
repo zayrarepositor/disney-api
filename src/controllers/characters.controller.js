@@ -18,9 +18,11 @@ export const getAllCharacters = async (req, res) => {
           attributes: ["title"],
         },
       });
-      character === null
-        ? res.status(400).json("sorry, character not found")
-        : res.status(200).json(character);
+      if (character === null) {
+        res.status(400).json("sorry, character not found");
+      } else {
+        res.status(200).json(character);
+      }
     }
 
     // get characters?age=age
@@ -35,9 +37,11 @@ export const getAllCharacters = async (req, res) => {
           attributes: ["title"],
         },
       });
-      characters === null
-        ? res.status(400).json("sorry, characters not found")
-        : res.status(200).json(characters);
+      if (characters.length < 1) {
+        res.status(400).send("sorry, characters not found");
+      } else {
+        res.status(200).json({ msg: `Age: ${age} years:`, characters });
+      }
     }
     // get characters?weight=weight
     else if (weight) {
@@ -51,29 +55,32 @@ export const getAllCharacters = async (req, res) => {
           attributes: ["title"],
         },
       });
-      characters === null
-        ? res.status(400).json("sorry, characters not found")
-        : res.status(200).json(characters);
+      if (characters.length < 1) {
+        res.status(400).send("sorry, characters not found");
+      } else {
+        res.status(200).json({ msg: `Weight: ${weight} kgs:`, characters });
+      }
     }
 
     // get characters?movies=idMovie
     else if (movies) {
       const movie = await Movie.findByPk(movies);
-      if (movie !== null) {
+      if (movie === null) {
+        res.status(400).json("sorry, movie not found");
+      } else {
         const movieCharacters = await movie.getCharacters({
           attributes: { exclude: ["id"] },
         });
-        res.status(200).json(movieCharacters);
-      } else {
+        res.status(200).json({ msg: `Movie: ${movie.title}`, movieCharacters });
       }
     } else {
       const allCharacters = await Character.findAll({
-        attributes: ["name", "image"],
+        attributes: ["id", "name", "image"],
       });
-      if (getAllCharacters === null) {
+      if (allCharacters.length < 1) {
         res.status(400).json("sorry, there are not characters");
       } else {
-        res.status(200).json(allCharacters);
+        res.status(200).json({ msg: `All characters:`, allCharacters });
       }
     }
   } catch (error) {
@@ -86,23 +93,34 @@ export const createCharacter = async (req, res) => {
   try {
     const { name, image, age, weight, history, movies } = req.body;
 
-    const newCharacter = await Character.create(
-      {
+    const newCharacter = await Character.create({
+      name,
+      image,
+      age,
+      weight,
+      history,
+    });
+    if (movies) {
+      const [moviematched, created] = await Movie.findOrCreate({
+        where: {
+          title: movies,
+        },
+      });
+      await newCharacter.addMovie(moviematched);
+    }
+    const finishedCharacter = await Character.findOne({
+      where: {
         name,
-        image,
-        age,
-        weight,
-        history,
-        movies: movies?.map((m) => {
-          return { title: m };
-        }),
       },
-      { include: "movies" }
-    );
-
+      attributes: { exclude: ["id"] },
+      include: {
+        model: Movie,
+        attributes: ["title"],
+      },
+    });
     res.status(201).send({
       msg: `Great! You has created a character!!`,
-      newCharacter,
+      finishedCharacter,
     });
   } catch (err) {
     console.log(err);
@@ -122,31 +140,30 @@ export const updateCharacter = async (req, res) => {
       },
     });
 
-    if (character) {
+    if (character === null) {
+      res.status(400).json({ msg: "character not found" });
+    } else {
       const { name, image, age, weight, history, movies } = req.body;
-      if (name) character.update({ name });
-      if (image) character.update({ image });
-      if (age) character.update({ age });
-      if (weight) character.update({ weight });
-      if (history) character.update({ history });
+      if (name) await character.update({ name });
+      if (image) await character.update({ image });
+      if (age) await character.update({ age });
+      if (weight) await character.update({ weight });
+      if (history) await character.update({ history });
       if (movies) {
-        /*   const movie = await Movie.create({
-          title: movies,
-        });
- */ character.addMovies({ movies });
-        //character.update({ movies });//{"movies":[{"title":"colombia"}, {"title":"encanto2"}]}
-        /* await character.addMovies({
-          movies: movies.map((m) => {
-            return { title: m };
-          }),
-        }); */
+        const newMovies = await Movie.bulkCreate(movies);
+        await character.addMovies(newMovies); //{"movies":[{"title":"colombia"}, {"title":"encanto2"}]}
       }
+      const characterUpdated = await Character.findOne({
+        where: { id },
+        include: {
+          model: Movie,
+          attributes: ["title"],
+        },
+      });
       res.status(202).send({
         msg: `You has updated a character`,
-        character,
+        characterUpdated,
       });
-    } else {
-      res.status(400).json({ msg: "character not found" });
     }
   } catch (error) {
     console.log(error);

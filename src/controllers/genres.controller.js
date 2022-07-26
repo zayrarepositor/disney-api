@@ -15,6 +15,7 @@ export const getAllGenres = async (req, res) => {
     console.log(error);
   }
 };
+
 //createGenre,
 export const createGenre = async (req, res) => {
   try {
@@ -38,16 +39,20 @@ export const updateGenre = async (req, res) => {
   try {
     const { id } = req.params;
 
-    let genre = await Genre.findOne({
-      where: { id },
-    });
-    genre.set(req.body);
-    await genre.save();
+    let genre = await Genre.findByPk(id);
+    if (genre === null) {
+      res.status(400).json({ msg: "genre not found" });
+    } else {
+      const { name, image } = req.body;
+      if (name) await genre.update({ name });
+      if (image) await genre.update({ image });
 
-    res.status(202).send({
-      msg: `You has updated a genre`,
-      genre,
-    });
+      const genreUpdated = await Genre.findByPk(id);
+      res.status(202).send({
+        msg: `You has updated a genre`,
+        genreUpdated,
+      });
+    }
   } catch (error) {
     console.log(error);
   }

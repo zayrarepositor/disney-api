@@ -5,7 +5,7 @@ import { Movie } from "../models/Movie.js";
 //list of specific movie or all characters
 export const getAllMovies = async (req, res) => {
   try {
-    const { name, genre, order, date } = req.query;
+    const { name, genre, order } = req.query;
 
     // GET /movies?name=title
     if (name) {
@@ -13,46 +13,44 @@ export const getAllMovies = async (req, res) => {
         where: {
           title: name,
         },
+        attributes: { exclude: ["id", "genreId"] },
         include: {
           model: Character,
           attributes: ["name"],
         },
       });
-
-      res.status(200).json(movie);
+      if (movie === null) {
+        res.status(400).send(`Sorry, movie not found`);
+      } else {
+        res.status(200).json(movie);
+      }
     }
-
-    // GET /movies?genre=idGenero
+    // GET /movies?genre=idGenre
     else if (genre) {
-      /* 
-      const genre =  Genre.findByPk(genre)
-      genreMovies = genre.getMovies(
-      {  include: {
-          model: Character,
-          attributes: ["name"],
-        },}
-      ) */
-      const movies = await Movie.findAll({
-        where: {
-          genreId: genre,
-        },
-        include: {
-          model: Character,
-          attributes: ["name"],
-        },
-        //order?order=ASC | DESC
-        //date?date=ASC | DESC
-      });
+      const genrematched = await Genre.findByPk(genre);
+      if (genrematched === null) {
+        res.status(400).send(`Sorry, genre not found`);
+      } else {
+        const genreMovies = await genrematched.getMovies({
+          order: [["date", order ? order : "ASC"]],
+          attributes: { exclude: ["id", "genreId"] },
+          include: {
+            model: Character,
+            attributes: ["name"],
+          },
+        });
 
-      res.status(200).json(movies);
+        res.status(200).json({
+          msg: `You have choosen ${genrematched.name} genre.`,
+          genreMovies,
+        });
+      }
     } else {
       // get all movies (image, title, date)
       const allMovies = await Movie.findAll({
-        attributes: ["title", "image", "date"],
+        order: [["date", order ? order : "ASC"]],
+        attributes: ["id", "title", "image", "date"],
       });
-      //order?order=ASC | DESC
-      //date?date=ASC | DESC
-
       res.status(200).json(allMovies);
     }
   } catch (error) {
@@ -65,32 +63,29 @@ export const createMovie = async (req, res) => {
   try {
     const { image, title, date, rating, genre, characters } = req.body;
 
-    const newMovie = await Movie.create({
-      image,
-      title,
-      date,
-      rating,
-    });
+    const newMovie = await Movie.create(
+      {
+        image,
+        title,
+        date,
+        rating,
+        characters: characters?.map((character) => {
+          return { name: character };
+        }),
+      },
+      { include: "characters" }
+    );
+
+    // bonus: genre
     if (genre) {
-      const genrematched = await Genre.findOrCreate({
+      const [genrematched, created] = await Genre.findOrCreate({
         where: {
           name: genre,
         },
       });
-      newMovie.setGenre(genrematched);
+      await newMovie.setGenre(genrematched);
     }
 
-    /* ASOCIAR PERSONAJES
-        if (characters) {
-      const charactersmatched = await Character.findAll({
-        where: {
-          name: characters,
-        },
-      });
-
-      await newMovie.setCharacters(charactersmatched);
-    }
- */
     res.status(201).send({
       msg: `Great! You has created a movie!!`,
       newMovie,
@@ -105,21 +100,32 @@ export const updateMovie = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const movie = await Movie.findOne({
-      where: { id },
-    });
+    const movie = await Movie.findByPk(id);
 
-    if (movie) {
-      movie.set(req.body);
-      await movie.save();
+    if (movie === null) {
+      res.status(400).json({ msg: "movie not found" });
+    } else {
+      const { title, image, date, rating, characters } = req.body;
+      if (title) await movie.update({ title });
+      if (image) await movie.update({ image });
+      if (date) await movie.update({ date });
+      if (rating) await movie.update({ rating });
+      if (characters) {
+        const newCharacters = await Character.bulkCreate(characters);
+        await movie.addCharacters(newCharacters); //{"characters":[{"name":"mirabel"}, {"name":"rapunzel"}]}
+      }
+      const movieUpdated = await Movie.findOne({
+        where: { id },
+        include: {
+          model: Character,
+          attributes: ["name"],
+        },
+      });
 
       res.status(202).send({
         msg: `You has updated a movie`,
-        movie,
+        movieUpdated,
       });
-      //GENRES??CHARACTERS??
-    } else {
-      res.status(400).json({ msg: "movie not found" });
     }
   } catch (error) {
     console.log(error);

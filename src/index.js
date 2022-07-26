@@ -3,10 +3,7 @@ import app from "./app.js";
 import { sequelize } from "./db/db.js";
 import "./db/associations.js";
 
-/* import "./models/Genre.js";
-import "./models/Movie.js";
-import "./models/Character.js";
- */
+
 async function main() {
   try {
     await sequelize.sync({ force: false });
