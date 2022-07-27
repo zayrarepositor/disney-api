@@ -108,5 +108,12 @@ Los tests pueden realizarse utilizando Mocha + Chai.
 ![movies-post](https://user-images.githubusercontent.com/95602965/180970821-ac099eab-0a42-4ecd-93a4-879b5407c6b3.png)
 ![movies-post2](https://user-images.githubusercontent.com/95602965/180970824-25fe010f-10c4-424a-8373-4b912d85792c.png)
 ![movies-put](https://user-images.githubusercontent.com/95602965/180970826-d1b8e677-88c0-4754-92a9-a721d5fda897.png)
+* Registration
+![authregister](https://user-images.githubusercontent.com/95602965/181134131-24b353cb-62e5-4186-b669-38188760ee33.png)
+* Login
+![authloginIncorrectemail](https://user-images.githubusercontent.com/95602965/181134109-894e8975-1ae1-4073-89f8-4f451e451b3b.png)
+![authloginIncorrectpassword](https://user-images.githubusercontent.com/95602965/181134121-f109dc06-dff7-4aad-b23f-9e318db2f360.png)
+![authloginsuccesfully](https://user-images.githubusercontent.com/95602965/181134125-5edac414-a9b7-4019-ae10-71a53518c947.png)
 
 Good Life! ( ͡~ ͜ʖ ͡°)
+
