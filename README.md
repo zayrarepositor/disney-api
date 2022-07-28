@@ -29,29 +29,34 @@
 **Important** You will need to register to endpoints access
 
 - SIGN UP => /auth/register
-  ==> REGISTRATION DATA YOU WILL SEND:
+
+==> REGISTRATION DATA YOU WILL SEND:
+  
     {
-  "username": "rodrigo",
-  "email": "anaturistaintegral@gmail.com",
-  "password": "rodrigossword123!",
-  "roleId": "user" //OPTIONAL
+    "username": "rodrigo",
+    "email": "anaturistaintegral@gmail.com",
+    "password": "rodrigossword123!",
+    "roleId": "user" //OPTIONAL
     }
-  ==> SUCCESSFUL REGISTRATION RESPONSE:
+    
+==> SUCCESSFUL REGISTRATION RESPONSE:
+
     {
-  "msg": "Registration done! You are sign up",
-  "newUser": {
+    "msg": "Registration done! You are sign up",
+    "newUser": {
     "id": 29,
     "username": "rodrigo",
     "email": "anaturistaintegral@gmail.com",
     "password": "$2a$10$LDnEE29MLvChjiQo8gqW8upimaB7gTj/R.Pt86rCy/CAdrW8JVitG",
     "roleId": 2
     },
-  **Important** "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksImlhdCI6MTY1OTAyNTM4NSwiZXhwIjoxNjU5MTExNzg1fQ.jFxM_aQIlRIdb6yBq8iXRjQ1G0Mn7qC8Hckrh7YsPMM",
-  "mailerMsg": "Check anaturistaintegral@gmail.com for confirmation and token copy"
+    **Important** "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksImlhdCI6MTY1OTAyNTM4NSwiZXhwIjoxNjU5MTExNzg1fQ.jFxM_aQIlRIdb6yBq8iXRjQ1G0Mn7qC8Hckrh7YsPMM"
+    "mailerMsg": "Check anaturistaintegral@gmail.com for confirmation and token copy"
     }
 
-  - LOG IN => /auth/login
-    Email and password required.
+- LOG IN => /auth/login
+
+Email and password required.
     
 **Important** token is required in all endpoints except GET endpoints. send it by header as "access-token"
 
