@@ -10,7 +10,11 @@ export const getAllGenres = async (req, res) => {
         attributes: ["title"],
       },
     });
-    res.status(201).json(allGenres);
+    if (allGenres.length < 1) {
+      res.status(400).json({ msg: "genres not found" });
+    } else {
+      res.status(201).json({ msg: "All genres", allGenres });
+    }
   } catch (error) {
     console.log(error);
   }

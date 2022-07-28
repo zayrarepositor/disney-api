@@ -9,10 +9,10 @@ import users from "./routes/users.js";
 import genres from "./routes/genres.js";
 import movies from "./routes/movies.js";
 import characters from "./routes/characters.js";
-import { createRoles } from "./controllers/auth.controller.js";
+import { germinator } from "../src/db/seed.js";
 // INITIALIZATION
 const app = express();
-createRoles();
+germinator();
 //SAVE VARIABLE
 //app.set("projectInfo", projectInfo);
 

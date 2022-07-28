@@ -25,13 +25,9 @@ export const User = sequelize.define(
         isEmail: true,
       },
     },
-    //at leat 8 characters
     password: {
       type: DataTypes.STRING,
       required: true,
-      /* validate: {
-        is: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i,
-      }, */
     },
   },
   { timestamps: false }

@@ -5,6 +5,8 @@ import {
   updateUser,
   deleteUser,
 } from "../controllers/users.controller.js";
+import { verifyToken } from "../middleware/authtoken.js";
+
 const users = Router();
 
 // user is created in auth route
@@ -12,8 +14,8 @@ const users = Router();
 // list of all users
 users.get("/", getAllUsers);
 // edit a character
-users.put("/:id", updateUser);
+users.put("/:id", verifyToken, updateUser);
 // delete a character
-users.delete("/:id", deleteUser);
+users.delete("/:id", verifyToken, deleteUser);
 
 export default users;

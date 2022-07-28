@@ -5,15 +5,16 @@ import {
   updateGenre,
   deleteGenre,
 } from "../controllers/genres.controller.js";
+import { verifyToken } from "../middleware/authtoken.js";
 const genres = Router();
 
 // get all genres (image, title, date)
 genres.get("/", getAllGenres);
 // create a genre
-genres.post("/", createGenre);
+genres.post("/", verifyToken, createGenre);
 // edit a genre
-genres.put("/:id", updateGenre);
+genres.put("/:id", verifyToken, updateGenre);
 // delete a genre
-genres.delete("/:id", deleteGenre);
+genres.delete("/:id", verifyToken, deleteGenre);
 
 export default genres;

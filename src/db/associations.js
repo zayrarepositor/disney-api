@@ -21,7 +21,7 @@ Character.belongsToMany(Movie, { through: "characters_movies" });
 Movie.belongsToMany(Character, { through: "characters_movies" });
 //movie.getCharacters(), countCharacters(), hasCharacter(), hasCharacters(), setCharacters(), addCharacter(), addCharacters(), removeCharacter(), removeCharacters(), createCharacter()
 
-//MANY TO MANY
-User.belongsToMany(Role, { through: "users_roles" });
-
-Role.belongsToMany(User, { through: "users_roles" });
+//ONE TO MANY
+Role.hasMany(User);
+User.belongsTo(Role);
+//roleId in User

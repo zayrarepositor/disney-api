@@ -5,12 +5,12 @@ import { Role } from "../models/Role.js";
 export const getAllUsers = async (req, res) => {
   try {
     const allUsers = await User.findAll({
-      /* include: {
+      include: {
         model: Role,
-        //attributes: ["rolename",],
-      }, */
+        attributes: ["rolename"],
+      },
     });
-    res.status(201).json(allUsers);
+    res.status(201).json({ msg: "All users", allUsers });
   } catch (error) {
     console.log(error);
   }
@@ -36,7 +36,7 @@ export const updateUser = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
