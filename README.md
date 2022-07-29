@@ -2,7 +2,8 @@
 <img src="https://readme-typing-svg.herokuapp.com?color=CAC8F8&background=1C1C1D&size=25&center=true&vCenter=true&width=433&height=75&lines=Hi!+I+am+Zayra+Velasco;Soft+dev+and+Admin+manager;it+is+a+backend+project;to+Alkemy;disney+characters+and+movies;enjoy+it+!">
 </p>
 
-# disney-api
+# disney-api 
+Backend project with nodejs, express and sequilize for alkemy.
 
 ## DataBase
 
