@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import config from "../config.js";
 import nodemailer from "nodemailer";
+import "dotenv/config";
 
 //const { MAIL, PASSWORD } = process.env;
 /* hotmail
@@ -78,8 +79,8 @@ export const register = async (req, res) => {
           port: 587, //465 for gmail
           secure: false, // true for 465, false for other ports
           auth: {
-            user: "feliz_87@hotmail.es",
-            pass: "zmvr153772784",
+            user: process.env.MAIL,
+            pass: process.env.PASSWORD,
           },
           tls: {
             ciphers: "SSLv3", //for outlook
