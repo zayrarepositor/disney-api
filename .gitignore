@@ -7,3 +7,5 @@ jspm_packages/
 
 #snips
 snips/
+
+.env
