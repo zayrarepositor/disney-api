@@ -51,7 +51,7 @@ export const getAllMovies = async (req, res) => {
         order: [["date", order ? order : "ASC"]],
         attributes: ["id", "title", "image", "date"],
       });
-      res.status(200).json(allMovies);
+      res.status(200).json({ msg: "All movies", allMovies });
     }
   } catch (error) {
     console.log(error);

@@ -5,6 +5,7 @@ import { Role } from "../models/Role.js";
 export const getAllUsers = async (req, res) => {
   try {
     const allUsers = await User.findAll({
+      attributes: { exclude: ["password", "roleId"] },
       include: {
         model: Role,
         attributes: ["rolename"],

@@ -4,13 +4,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import config from "../config.js";
 import nodemailer from "nodemailer";
-import "dotenv/config";
 
-//const { MAIL, PASSWORD } = process.env;
-/* hotmail
-feliz_87@hotmail.es
-Contrasena
-zmvr153772784 
+/*
 Hotmail 	Servidor: smtp.live.com	Authentication:  	TLS	Puerto:587
 Googlemail - Gmail  Servidor:	smtp.gmail.com Authentication:  	TLS o  SSL Puerto 25 o 587 o 465
 SMTP Servidor 
@@ -79,8 +74,8 @@ export const register = async (req, res) => {
           port: 587, //465 for gmail
           secure: false, // true for 465, false for other ports
           auth: {
-            user: process.env.MAIL,
-            pass: process.env.PASSWORD,
+            user: config.MAIL_USER,
+            pass: config.MAIL_PASS,
           },
           tls: {
             ciphers: "SSLv3", //for outlook
@@ -97,8 +92,8 @@ export const register = async (req, res) => {
       Your token is ready!! Remember you will need it for all the
       POST/PUT/DELETE requests.
     </p>
-    <h5>Header name: access-token</h5>
-    <h5>Subject:${token}</h5>
+    <h5>Header name:  access-token</h5>
+    <h5>Subject:  ${token}</h5>
     <p >Save it!</p>
     <h2>Greetings!</h2>`;
 
