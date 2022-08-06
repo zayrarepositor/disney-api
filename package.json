@@ -20,8 +20,7 @@
   "scripts": {
     "dev": "nodemon src/index.js --exec babel-node",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src --out-dir build",
-    "start": "node build/index.js"
+    "start": "node ."
   },
   "keywords": [],
   "author": "Zayra Velasco",
