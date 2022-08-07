@@ -18,10 +18,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "dev": "nodemon src/index.js --exec babel-node",
     "build": "babel src --out-dir build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node index.js --exec",
-    "dev": "nodemon --exec npx babel-node index.js"
+    "start": "node --experiment-module build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Zayra Velasco",
