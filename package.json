@@ -19,8 +19,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js --exec babel-node",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js"
+    "build": "babel src --out-dir build",
+    "start": "node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Zayra Velasco",
@@ -30,6 +31,7 @@
     "@babel/cli": "^7.18.9",
     "@babel/core": "^7.18.9",
     "@babel/node": "^7.18.9",
+    "@babel/plugin-transform-runtime": "^7.18.10",
     "@babel/preset-env": "^7.18.9",
     "nodemon": "^2.0.19",
     "sequelize-cli": "^6.4.1"

@@ -5,7 +5,11 @@ jspm_packages/
 # Optional npm cache directory
 .npm
 
-#snips
-snips/
+#snips posts
+snips
 
+#enviroment variables
 .env
+
+#npm run build
+build
