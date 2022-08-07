@@ -6,6 +6,10 @@
 
 Backend project with nodejs, express and sequilize for alkemy.
 
+## Deploy
+
+Heroku ☞ https://disney-2022.herokuapp.com/
+
 ## DataBase
 
 - Character:
