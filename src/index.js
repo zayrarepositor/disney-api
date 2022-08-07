@@ -6,7 +6,7 @@ import config from "./config.js";
 
 async function main() {
   try {
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ alter: true, force: false });
     app.listen(config.PORT);
     console.log("server on port", config.PORT);
   } catch (error) {
