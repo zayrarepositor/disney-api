@@ -6,10 +6,6 @@
 
 Backend project with nodejs, express and sequilize for alkemy.
 
-## Deploy
-
-Heroku ☞ https://disney-2022.herokuapp.com/
-
 ## DataBase
 
 - Character:
@@ -101,36 +97,6 @@ Email and password required.
 - GET => /movies?genre=genre&order=ASC | DESC
   Filter by genre: Movie details and characters associated. Could be ordered by creation date ASC or DESC.
 
-## Try some endopoints
-
-•	Todos los usuarios: 
-
-    https://disney-2022.herokuapp.com/users
-•	Todas las películas: 
-
-    https://disney-2022.herokuapp.com/movies
-•	Todos los personajes: 
-
-    https://disney-2022.herokuapp.com/characters
-•	Filtro de película por nombre:  
-
-    https://disney-2022.herokuapp.com/movies?name=Alice in Wonderland
-•	Filtro de película por género. Se puede ordenar alfabéticamente: 
-    
-    https://disney-2022.herokuapp.com/movies?genre=2&order=DESC
-•	Filtro de personaje por nombre: 
-
-    https://disney-2022.herokuapp.com/characters?name=Alice 
-•	Filtro de personaje por edad: 
-
-    https://disney-2022.herokuapp.com/characters?age=15
-•	Filtro de personaje por peso: 
-    
-    https://disney-2022.herokuapp.com/characters?weight=50 
-•	Filtro de personaje por película realizada: 
-
-  https://disney-2022.herokuapp.com/characters?movies=2
-
 ## Mailing
 
 When you successfully register yourself, you will receive a mail notification.
@@ -138,7 +104,7 @@ Tech: Nodemailer
 
 ## Snips.
 
-    Tech for Requests: ThunderClient
+Tech for Requests: ThunderClient
 
 - Characters
 <p align='center'>☑ DELETE</p>
